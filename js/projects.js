@@ -113,29 +113,68 @@ export function closeProject(e) {
     }, 1500)
   }
 }
-
-
+// START
+function setPrev() {
+  const currentProject = document.querySelector('.current-project');
+  const currentProjectPage = currentProject.querySelector('.current-page');
+  const wrapper = currentProject.querySelector('.transotion-wrap');
+  wrapper.style.height = `${currentProjectPage.offsetHeight}px`;
+  document.body.style.height = `${currentProjectPage.offsetHeight}px`;
+  console.log('prev:', currentProjectPage);
+  // console.log('prev:', currentProjectPage.offsetHeight);
+}
+function setNext() {
+  const currentProject = document.querySelector('.current-project');
+  const currentProjectPage = currentProject.querySelector('.current-page').nextElementSibling;
+  const wrapper = currentProject.querySelector('.transotion-wrap');
+  wrapper.style.height = `${currentProjectPage.offsetHeight}px`;
+  document.body.style.height = `${currentProjectPage.offsetHeight}px`;
+  console.log('next:', currentProjectPage);
+  // console.log('next:', currentProjectPage.offsetHeight);
+}
 function setSectionWrapHeight(projectId) {
+  // console.log(999999)
   const body = document.body;
   allProjectsOverlay.forEach(project => {
     if (project.dataset.projectid === projectId) {
       let biggerValue = 0;
       const wrapper = project.querySelector('.transotion-wrap');
+      let currentPageHeight;
       Object.values(wrapper.children).forEach(child => {
-        if (Object.values(Object.values(wrapper.children)).length === 1) {
-          document.body.classList.add('last-project-page');
-        }
-        if (child.clientHeight > biggerValue) {
-          biggerValue = child.clientHeight;
+        // console.log(child)
+        if(child.classList.contains('current-page')) {
+          currentPageHeight = child.offsetHeight;
+          console.log(currentPageHeight);
         }
       })
-      const height = biggerValue;
-      wrapper.style.height = `${height}px`;
-      body.style.height = `${height}px`;
+      // const height = biggerValue;
+      wrapper.style.height = `${currentPageHeight}px`;
+      body.style.height = `${currentPageHeight}px`;
       body.style.minHeight = `calc(var(--vh, 1vh) * 100)`;
     }
   })
 }
+// function setSectionWrapHeight(projectId) {
+//   const body = document.body;
+//   allProjectsOverlay.forEach(project => {
+//     if (project.dataset.projectid === projectId) {
+//       let biggerValue = 0;
+//       const wrapper = project.querySelector('.transotion-wrap');
+//       Object.values(wrapper.children).forEach(child => {
+//         if (Object.values(Object.values(wrapper.children)).length === 1) {
+//           document.body.classList.add('last-project-page');
+//         }
+//         if (child.clientHeight > biggerValue) {
+//           biggerValue = child.clientHeight;
+//         }
+//       })
+//       const height = biggerValue;
+//       wrapper.style.height = `${height}px`;
+//       body.style.height = `${height}px`;
+//       body.style.minHeight = `calc(var(--vh, 1vh) * 100)`;
+//     }
+//   })
+// }
 
 const allNextBtns = document.querySelectorAll('.next');
 const allPrevBtns = document.querySelectorAll('.prev');
@@ -213,6 +252,7 @@ function nextSubPageAnimation(e) {
     setSectionWrapHeight();
     clearTimeout(timeout)
   }, 1000);
+  setNext();
 }
 
 function prevSubPageAnimation(e) {
@@ -233,4 +273,5 @@ function prevSubPageAnimation(e) {
     setSectionWrapHeight();
     clearTimeout(timeout)
   }, 1000);
+  setPrev();
 }

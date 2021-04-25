@@ -63,6 +63,7 @@
   -moz-transition: all 0.3s ease-in-out;
   -ms-transition: all 0.3s ease-in-out;
   -o-transition: all 0.3s ease-in-out;
+  user-select: none;
 }
 .menu__link:hover img,
 .menu__link:focus img {
